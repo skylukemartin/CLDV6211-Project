@@ -18,12 +18,15 @@ namespace cldv6211proj.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult AboutUs()
         {
             return View();
         }
-
-        public IActionResult AboutUs()
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+        public IActionResult MyWork()
         {
             return View();
         }
