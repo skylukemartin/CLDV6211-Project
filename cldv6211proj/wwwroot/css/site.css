@@ -8,7 +8,11 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -19,4 +23,25 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+/* Source: https: //www.w3schools.com/howto/howto_js_image_grid.asp. */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create 4 equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  padding: 0 4px;
+}
+
+.column craftwork-item,
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
 }
