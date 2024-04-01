@@ -38,10 +38,26 @@ body {
   padding: 0 4px;
 }
 
-.column craftwork-item,
 .column img {
   margin-top: 8px;
   vertical-align: middle;
   max-width: 100%;
   height: auto;
+}
+
+/* Add border around items and space them out a little. */
+/* Also add a gradient background with rustic-ish colours /*
+/* (I don't love how this turned out honestly). */
+.column .craftwork-item {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 2px solid #777777;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to bottom, rgba(131, 33, 4, 0.1) 0%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(to right, rgba(148, 59, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+  background-blend-mode: overlay;
 }
