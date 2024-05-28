@@ -1,10 +1,24 @@
 namespace cldv6211proj
 {
+    using cldv6211proj.Models.Db;
+    using Models.Db.Util;
+
     public class Program
     {
         public static void Main(string[] args)
         {
+            // new Seeds().PrintSqlStateSeeds();
+            new Seeds().DropSeeds(drill: true, withNukes: false);
+            return;
             var builder = WebApplication.CreateBuilder(args);
+
+            // Add HttpContext
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(Options =>
+            {
+                Options.IdleTimeout = TimeSpan.FromMinutes(120);
+            });
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -21,14 +35,15 @@ namespace cldv6211proj
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}"
+            );
 
             app.Run();
         }

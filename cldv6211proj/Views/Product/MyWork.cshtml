@@ -1,0 +1,67 @@
+﻿@model cldv6211proj.Models.Db.Product
+
+@* references:
+https://stackoverflow.com/questions/407770/mapping-individual-buttons-on-asp-net-mvc-view-to-controller-actions
+https://getbootstrap.com/docs/4.3/layout/overview/
+https://getbootstrap.com/docs/4.0/utilities/flex/
+https://getbootstrap.com/docs/4.0/components/card/ *@
+
+@{
+    ViewData["Title"] = "My Work";
+    var products = ViewData["Products"] as List<cldv6211proj.Models.Db.Product>;
+    var numPerColumn = 4;
+}
+
+<div class="text-center pb-4">
+   <h1 class="display-4">@ViewData["Title"]</h1>
+   <p>Have a look at our extensive catalogue of handcrafted products,
+            created by craftmasters all over the world.</p>        
+</div>
+
+<body>
+    @if (products?.Count > 0)
+    {
+        <div class="container">
+            <div class="justify-content-md-center d-flex flex-wrap">
+                @for (int i = 0; i < products.Count; i += 4)
+                {
+                    @for (int j = 0; i + j < products.Count && j < numPerColumn; j++)
+                    {
+                        <div class="card m-2" style="max-width: 350px">
+                            <img src="@products[i+j].ImageURL" alt="@products[i].Name">
+                            <div class="card-body">
+                                <h5 class="card-title">@products[i + j].Name</h5>
+                                <p class="card-text text-truncate">@products[i + j].Description </p>
+                                <div class=" d-flex justify-content-between align-items-center bd-highlight">
+                                    <div class=""><strong>@string.Concat("R", products[i + j].Price)</strong></div>
+                                    <div><strong>@products[i + j].Availability</strong> in stock</div>
+                                    <form asp-controller="Order" asp-action="PlaceOrder" method="get">
+                                        <input type="hidden" name="productID" value="@products[i + j].ID" />
+                                        <input type="submit" value="Order" class="btn btn-primary" @(products[i + j].Availability < 1 ? "disabled":"") />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                 <div class="card m-2" style="max-width: 350px">
+                    <img src="https://placehold.co/500x500" alt="Placeholder">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Product</h5>
+                        <p class="card-text text-truncate">You Craft? Make a listing!</p>
+                        <div class=" d-flex justify-content-between align-items-center bd-highlight">
+                            <div class=""><strong>R9001</strong></div>
+                            <div><strong>?</strong> in stock</div>
+                            <form asp-controller="Product" asp-action="CraftProduct" method="get">
+                                <input type="submit" value="Craft" class="btn btn-primary" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+
+
+

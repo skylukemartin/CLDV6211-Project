@@ -1,9 +1,20 @@
-﻿@{
+﻿@model cldv6211proj.Models.Db.User
+
+@{
     ViewData["Title"] = "Home Page";
+    var user = ViewData["User"] as cldv6211proj.Models.Db.User;
+    int userID = user != null ? user.ID : -1;
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to KhumaloCraft Emporium</h1>
+    @if (userID > 0)
+    {
+        <h1 class="display-4">Welcome back to KhumaloCraft Emporium, @user!.Name!</h1>
+    }
+    else
+    {
+        <h1 class="display-4">Welcome to KhumaloCraft Emporium</h1>
+    }
     <p>
         A world of handcrafted products, crafted by craftmasters all over the world using their bare hands.
         Try clicking one of the links in the navigation bar at the top to check out our stuff!
