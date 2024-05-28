@@ -8,8 +8,8 @@ namespace cldv6211proj
         public static void Main(string[] args)
         {
             // new Seeds().PrintSqlStateSeeds();
-            new Seeds().DropSeeds(drill: true, withNukes: false);
-            return;
+            // new Seeds().DropSeeds(drill: true, withNukes: false);
+            // return;
             var builder = WebApplication.CreateBuilder(args);
 
             // Add HttpContext
