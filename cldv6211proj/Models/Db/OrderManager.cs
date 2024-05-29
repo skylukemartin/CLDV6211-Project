@@ -89,7 +89,7 @@ namespace cldv6211proj.Models.Db
                         {
                             Order = op.order,
                             Product = op.product,
-                            OtherUser = user
+                            OtherUser = usr
                         }
                 )
                 .ToList();

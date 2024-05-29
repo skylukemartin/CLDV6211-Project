@@ -165,21 +165,20 @@ namespace cldv6211proj.Models.Db.Base
             return new Record<M>(this, model);
         }
 
+        public Record<M>? LazyFindRecord(Func<Record<M>, bool> where) =>
+            // Records.FirstOrDefault(where, null)??
+            // Argument of type 'Func<Record<M>, bool>' cannot be used for parameter 'predicate'
+            // of type 'Func<Record<M>?, bool>' in 'Record<M>? Enumerable.FirstOrDefault<Record<M>?>
+            // (IEnumerable<Record<M>?> source, Func<Record<M>?, bool> predicate, Record<M>? defaultValue)'
+            // due to differences in the nullability of reference types.CS8620
+            Records.FirstOrDefault(ffs => null == ffs ? false : where(ffs), null)
+            ?? FetchAllRecords().FirstOrDefault(ffs => null != ffs ? where(ffs) : false, null);
+
         public Record<M>? LazyFindRecord(int recordID)
         {
             if (recordID < 1)
                 return null;
-            var foundIndex = Records.FindIndex(rec => rec.Model.ID == recordID);
-            if (foundIndex != -1)
-                return Records[foundIndex];
-            var foundRecords = Db.SelectRecords(
-                new Record<M>(this, new M() { ID = recordID }),
-                ["ID"]
-            );
-            if (foundRecords.Count == 0)
-                return null;
-            Records.Add(foundRecords[0]);
-            return foundRecords[0];
+            return LazyFindRecord(rec => rec.Model.ID == recordID);
         }
     }
 

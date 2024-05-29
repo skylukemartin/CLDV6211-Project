@@ -78,7 +78,7 @@ namespace cldv6211proj.Controllers
         public IActionResult ShipOrder(int orderID)
         {
             OrderManager.ProcessOrder(orderID);
-            return RedirectToAction("ContactUs", "Home");
+            return RedirectToAction("ProcessOrders", "Order");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

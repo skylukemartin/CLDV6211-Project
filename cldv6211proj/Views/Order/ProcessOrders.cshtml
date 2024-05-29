@@ -38,7 +38,7 @@
                                             <div class="card-text">Quantity: @orderInfo.Order.Quantity </div>
                                             <div class=" mt-auto">
                                                 <form asp-controller="Order" asp-action="ShipOrder" method="post">
-                                                    <input type="hidden" name="productID" value="@orderInfo.Product.ID" />
+                                                    <input type="hidden" name="orderID" value="@orderInfo.Order.ID" />
                                                     <input type="submit" value="Ship" class="btn btn-primary" />
                                                 </form>
                                             </div>
