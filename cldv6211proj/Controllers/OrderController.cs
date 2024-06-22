@@ -1,26 +1,37 @@
 using System.Diagnostics;
 using cldv6211proj.Models;
-using cldv6211proj.Models.Db;
+using cldv6211proj.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cldv6211proj.Controllers
 {
     public class OrderController : Controller
     {
+        private readonly IOrderService _orderService;
+        private readonly IUserService _userService;
+        private readonly IProductService _productService;
         private readonly ILogger<ProductController> _logger;
 
-        public OrderController(ILogger<ProductController> logger)
+        public OrderController(
+            IOrderService orderService,
+            IUserService userService,
+            IProductService productService,
+            ILogger<ProductController> logger
+        )
         {
+            _orderService = orderService;
+            _userService = userService;
+            _productService = productService;
             _logger = logger;
         }
 
         [HttpGet]
         public IActionResult PlaceOrder(int productID)
         {
-            var user = UserManager.FindUser(HttpContext.Session.GetInt32("userID") ?? -1);
+            var user = _userService.GetUser(HttpContext.Session.GetInt32("userID") ?? -1);
             if (user == null)
-                return RedirectToAction("SignUp", "User");
-            var product = ProductManager.FindProduct(productID);
+                return RedirectToAction("Register", "User");
+            var product = _productService.GetProduct(productID);
             if (product == null)
                 return RedirectToAction("ContactUs", "Home");
 
@@ -39,13 +50,13 @@ namespace cldv6211proj.Controllers
         {
             if (orderForm.Quantity < 1)
                 return RedirectToAction("ContactUs", "Home");
-            var orderID = OrderManager.CreateOrder(
+            var orderID = _orderService.CreateOrder(
                 HttpContext.Session.GetInt32("userID") ?? -1,
                 productID,
                 orderForm.Address,
                 orderForm.Quantity
             );
-            if (orderID < 1)
+            if (orderID < 0)
                 return RedirectToAction("ContactUs", "Home");
             return RedirectToAction("OrderHistory", "Order");
         }
@@ -53,10 +64,10 @@ namespace cldv6211proj.Controllers
         [HttpGet]
         public IActionResult OrderHistory()
         {
-            var user = UserManager.FindUser(HttpContext.Session.GetInt32("userID") ?? -1);
+            var user = _userService.GetUser(HttpContext.Session.GetInt32("userID") ?? -1);
             if (user == null)
                 return RedirectToAction("ContactUs", "Home");
-            var orderInfos = OrderManager.ClientOrderInfos(user.ID);
+            var orderInfos = _orderService.FindOrderInfos(user.ID, isBuyer: true);
             if (orderInfos == null)
                 return RedirectToAction("ContactUs", "Home");
             return View(new UserOrdersModel() { User = user, OrderInfos = orderInfos });
@@ -65,10 +76,10 @@ namespace cldv6211proj.Controllers
         [HttpGet]
         public IActionResult ProcessOrders()
         {
-            var user = UserManager.FindUser(HttpContext.Session.GetInt32("userID") ?? -1);
+            var user = _userService.GetUser(HttpContext.Session.GetInt32("userID") ?? -1);
             if (user == null)
                 return RedirectToAction("ContactUs", "Home");
-            var orderInfos = OrderManager.SellerOrderInfos(user.ID);
+            var orderInfos = _orderService.FindOrderInfos(user.ID, isBuyer: false);
             if (orderInfos == null)
                 return RedirectToAction("ContactUs", "Home");
             return View(new UserOrdersModel() { User = user, OrderInfos = orderInfos });
@@ -77,7 +88,7 @@ namespace cldv6211proj.Controllers
         [HttpPost]
         public IActionResult ShipOrder(int orderID)
         {
-            OrderManager.ProcessOrder(orderID);
+            _orderService.ProcessOrder(orderID);
             return RedirectToAction("ProcessOrders", "Order");
         }
 

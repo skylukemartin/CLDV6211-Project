@@ -1,15 +1,14 @@
-﻿@model cldv6211proj.Models.Db.User
+﻿@model cldv6211proj.Models.User
 
 @{
     ViewData["Title"] = "Home Page";
-    var user = ViewData["User"] as cldv6211proj.Models.Db.User;
-    int userID = user != null ? user.ID : -1;
+    var user = ViewData["User"] as cldv6211proj.Models.User;
 }
 
 <div class="text-center">
-    @if (userID > 0)
+    @if (user != null)
     {
-        <h1 class="display-4">Welcome back to KhumaloCraft Emporium, @user!.Name!</h1>
+        <h1 class="display-4">Welcome back to KhumaloCraft Emporium, @user.Name</h1>
     }
     else
     {

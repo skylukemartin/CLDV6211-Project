@@ -1,4 +1,4 @@
-﻿@model cldv6211proj.Models.Db.Product
+﻿@model cldv6211proj.Models.Product
 
 @{
     ViewData["Title"] = "Your Work";
@@ -16,35 +16,47 @@
                     <div class="card-body">
                         <form asp-controller="Product" asp-action="FinishCraftProduct" method="post">
                             <div class="form-group">
-                                <label asp-for="Name">Product Name</label>
-                                <input asp-for="Name" class="form-control" placeholder="Enter product name">
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <label asp-for="Name">
+                                    Product Name
+                                    <input asp-for="Name" class="form-control" placeholder="Enter product name">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </label>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Price">Price</label>
-                                <input asp-for="Price" class="form-control" placeholder="Enter price">
-                                <span asp-validation-for="Price" class="text-danger"></span>
+                                <label asp-for="Price">
+                                    Price
+                                    <input asp-for="Price" class="form-control" placeholder="Enter price">
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </label>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Availability">Availability</label>
-                                <input asp-for="Availability" class="form-control" placeholder="Enter availability">
-                                <span asp-validation-for="Availability" class="text-danger"></span>
+                                <label asp-for="Availability">
+                                    Availability
+                                    <input asp-for="Availability" class="form-control" placeholder="Enter availability">
+                                    <span asp-validation-for="Availability" class="text-danger"></span>
+                                </label>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Description">Description</label>
-                                <textarea asp-for="Description" class="form-control"
-                                    placeholder="Enter description"></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
+                                <label asp-for="Description">
+                                    Description
+                                    <textarea asp-for="Description" class="form-control"
+                                        placeholder="Enter description"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </label>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Category">Category</label>
-                                <input asp-for="Category" class="form-control" placeholder="Enter category">
-                                <span asp-validation-for="Category" class="text-danger"></span>
+                                <label asp-for="Category">
+                                    Category
+                                    <input asp-for="Category" class="form-control" placeholder="Enter category">
+                                    <span asp-validation-for="Category" class="text-danger"></span>
+                                </label>
                             </div>
                             <div class="form-group">
-                                <label asp-for="ImageURL">Image URL</label>
-                                <input asp-for="ImageURL" class="form-control" placeholder="Enter image URL">
-                                <span asp-validation-for="ImageURL" class="text-danger"></span>
+                                <label asp-for="ImageURL">
+                                    Image URL
+                                    <input asp-for="ImageURL" class="form-control" placeholder="Enter image URL">
+                                    <span asp-validation-for="ImageURL" class="text-danger"></span>
+                                </label>
                             </div>
                             <div class="form-group d-flex justify-content-center pt-3">
                                 <button type="submit" class="btn btn-primary">Create</button>

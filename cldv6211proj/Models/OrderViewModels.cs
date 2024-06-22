@@ -1,5 +1,3 @@
-using cldv6211proj.Models.Db;
-
 namespace cldv6211proj.Models
 {
     public class SubmitOrderModel
@@ -25,6 +23,7 @@ namespace cldv6211proj.Models
     {
         public required Order Order { get; set; }
         public required Product Product { get; set; }
-        public required User OtherUser { get; set; }
+        public required User Buyer { get; set; }
+        public required User Seller { get; set; }
     }
 }

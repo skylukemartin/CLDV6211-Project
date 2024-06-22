@@ -1,22 +1,24 @@
 using System.Diagnostics;
 using cldv6211proj.Models;
-using cldv6211proj.Models.Db;
+using cldv6211proj.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cldv6211proj.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IUserService _userService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUserService userService, ILogger<HomeController> logger)
         {
+            _userService = userService;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            ViewData["User"] = UserManager.FindUser(HttpContext.Session.GetInt32("userID") ?? -1);
+            ViewData["User"] = _userService.GetUser(HttpContext.Session.GetInt32("userID") ?? -1);
             return View();
         }
 

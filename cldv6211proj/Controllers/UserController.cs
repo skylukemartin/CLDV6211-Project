@@ -4,46 +4,61 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace cldv6211proj.Controllers
 {
-    using Models.Db;
+    using cldv6211proj.Services;
 
     public class UserController : Controller
     {
+        private readonly IUserService _userService;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(IUserService userService, ILogger<UserController> logger)
         {
+            _userService = userService;
             _logger = logger;
         }
 
         [HttpGet]
         public IActionResult Login()
         {
-            return View(new User());
+            return View(new LoginUserModel());
         }
 
         [HttpPost]
-        public IActionResult Login(User user)
+        public IActionResult Login(LoginUserModel user)
         {
-            User? userLogin = UserManager.Login(user);
-            if (userLogin == null)
+            if (!ModelState.IsValid)
                 return RedirectToAction("ContactUs", "Home");
-            HttpContext.Session.SetInt32("userID", userLogin.ID);
+
+            int userID = _userService.LoginUser(user.Email!, user.Password!); // [Required]!
+            if (userID < 0)
+                return RedirectToAction("ContactUs", "Home");
+
+            HttpContext.Session.SetInt32("userID", userID);
             return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
-        public IActionResult SignUp()
+        public IActionResult Register()
         {
-            return View(new User());
+            return View(new RegisterUserModel());
         }
 
         [HttpPost]
-        public IActionResult SignUp(User user)
+        public IActionResult Register(RegisterUserModel user)
         {
-            User? userSignup = UserManager.Signup(user);
-            if (userSignup == null)
+            if (!ModelState.IsValid)
                 return RedirectToAction("ContactUs", "Home");
-            HttpContext.Session.SetInt32("userID", userSignup.ID);
+
+            int userID = _userService.CreateUser(
+                user.Name!, // ? [Required]!
+                user.Surname!, // ? [Required]!
+                user.Email!, // ? [Required]!
+                user.Password! // ? [Required]!
+            );
+            if (userID < 0)
+                return RedirectToAction("ContactUs", "Home");
+
+            HttpContext.Session.SetInt32("userID", userID);
             return RedirectToAction("Index", "Home");
         }
 

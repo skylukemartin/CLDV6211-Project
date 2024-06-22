@@ -1,15 +1,13 @@
 namespace cldv6211proj
 {
-    using cldv6211proj.Models.Db;
-    using Models.Db.Util;
+    using cldv6211proj.Data;
+    using cldv6211proj.Services;
+    using Microsoft.EntityFrameworkCore;
 
     public class Program
     {
         public static void Main(string[] args)
         {
-            // new Seeds().PrintSqlStateSeeds();
-            // new Seeds().DropSeeds(drill: true, withNukes: false);
-            // return;
             var builder = WebApplication.CreateBuilder(args);
 
             // Add HttpContext
@@ -23,7 +21,20 @@ namespace cldv6211proj
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // ref: https://learn.microsoft.com/en-us/ef/core/miscellaneous/connection-strings
+            // TODO: Use a more secure way of storing connection string (before someone finds this repo and nukes the db)
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+            );
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+
             var app = builder.Build();
+
+            DbInitializer.Initialize( // Make sure db has been seeded
+                app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>()
+            );
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

@@ -1,23 +1,24 @@
 using System.Diagnostics;
 using cldv6211proj.Models;
-using cldv6211proj.Models.Db;
+using cldv6211proj.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cldv6211proj.Controllers
 {
     public class ProductController : Controller
     {
+        private readonly IProductService _productService;
         private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(IProductService productService, ILogger<ProductController> logger)
         {
+            _productService = productService;
             _logger = logger;
         }
 
         public IActionResult MyWork()
         {
-            ViewData["Products"] = ProductManager.GetAllProducts();
-            ViewData["User"] = UserManager.FindUser(HttpContext.Session.GetInt32("userID") ?? -1);
+            ViewData["Products"] = _productService.GetProducts();
             return View();
         }
 
@@ -30,11 +31,13 @@ namespace cldv6211proj.Controllers
         [HttpPost]
         public IActionResult FinishCraftProduct(Product product)
         {
+            if (!ModelState.IsValid)
+                return RedirectToAction("ContactUs", "Home");
             var userID = HttpContext.Session.GetInt32("userID") ?? -1;
             if (userID < 1)
                 return RedirectToAction("Login", "Home");
             product.UserID = userID;
-            if (!ProductManager.AddProduct(product))
+            if (!_productService.AddProduct(product))
                 return RedirectToAction("ContactUs", "Home");
             return RedirectToAction("OrderHistory", "Order");
         }
