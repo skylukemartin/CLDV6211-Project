@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using cldv6211proj.Models;
+using cldv6211proj.Models.Database;
+using cldv6211proj.Models.ViewModels;
 using cldv6211proj.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +18,10 @@ namespace cldv6211proj.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult MyWork()
         {
-            ViewData["Products"] = _productService.GetProducts();
-            return View();
+            return View(new ProductList() { Products = _productService.GetProducts() });
         }
 
         [HttpGet]

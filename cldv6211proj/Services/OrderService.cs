@@ -1,5 +1,6 @@
 using cldv6211proj.Data;
-using cldv6211proj.Models;
+using cldv6211proj.Models.Database;
+using cldv6211proj.Models.ViewModels;
 
 namespace cldv6211proj.Services
 {
@@ -12,31 +13,33 @@ namespace cldv6211proj.Services
             _context = context;
         }
 
-        public int CreateOrder(int userID, int productID, string address, int quantity)
+        public int CreateOrder(OrderSubmitForm orderForm)
         {
             var productService = new ProductService(_context);
-            var product = productService.GetProduct(productID);
-            if (product == null || product.Availability < quantity)
+            var product = productService.GetProduct(orderForm.ProductID);
+            if (product == null || product.Availability < orderForm.Quantity)
                 return -1; // Can't create order without product
 
-            var orderPrice = product.Price * quantity;
-            var clientBalance = new UserService(_context).GetBalance(userID);
-            var processingBalance = FindActiveOrders(userID)
-                .Sum(o =>
-                {
-                    var p = productService.GetProduct(o.ProductID);
-                    return p == null ? 0 : p.Price * quantity;
-                });
             // uncomment to check user has sufficient balance
-            // if (clientBalance < orderPrice || orderPrice + processingBalance > clientBalance)
-            //     return -1; // User has insufficient balance, can't create order
+            // var userService = new UserService(_context);
+            // var buyer = userService.GetUser(orderForm.UserID);
+            // var orderPrice = product.Price * orderSubmission.Quantity;
+            // var buyerBalance = buyer.Balance;
+            // var processingBalance = FindActiveOrders(buyer.ID)
+            //     .Sum(o =>
+            //     {
+            //         var p = productService.GetProduct(o.ProductID);
+            //         return p == null ? 0 : p.Price * o.Quantity;
+            //     });
+            // if (buyerBalance < orderPrice || orderPrice + processingBalance > buyerBalance)
+            //     return -1; // Buyer has insufficient balance, can't create order
 
             var order = new Order()
             {
-                UserID = userID,
-                ProductID = productID,
-                Address = address,
-                Quantity = quantity
+                UserID = orderForm.UserID,
+                ProductID = orderForm.ProductID,
+                Address = orderForm.Address,
+                Quantity = orderForm.Quantity
             };
             _context.Orders.Add(order);
             _context.SaveChanges();

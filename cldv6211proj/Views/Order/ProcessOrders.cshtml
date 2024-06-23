@@ -1,4 +1,4 @@
-﻿@model cldv6211proj.Models.UserOrdersModel
+﻿@model cldv6211proj.Models.ViewModels.UserOrderInfos
 
 @{
     ViewData["Title"] = "Process Orders";
@@ -17,7 +17,7 @@
             {
                 @if (curOrders.Count > 0)
                 {
-                    <h1 class="mb-4">Orders</h1>
+                    <h1 class="mb-4">Unprocessed Orders</h1>
                     @foreach (var orderInfo in curOrders)
                     {
                         <div class="card mb-3">
@@ -65,7 +65,7 @@
                 }
                 @if (pastOrders.Count > 0)
                 {
-                    <h1 class="mb-4">Previous Orders</h1>
+                    <h1 class="mb-4">Processed Orders</h1>
                     @foreach (var orderInfo in pastOrders)
                     {
                         <div class="card mb-3">

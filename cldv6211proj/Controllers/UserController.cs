@@ -1,9 +1,11 @@
 using System.Diagnostics;
-using cldv6211proj.Models;
+using cldv6211proj.Models.Database;
+using cldv6211proj.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cldv6211proj.Controllers
 {
+    using cldv6211proj.Models;
     using cldv6211proj.Services;
 
     public class UserController : Controller
@@ -20,16 +22,16 @@ namespace cldv6211proj.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View(new LoginUserModel());
+            return View(new UserLogin());
         }
 
         [HttpPost]
-        public IActionResult Login(LoginUserModel user)
+        public IActionResult Login(UserLogin userLogin)
         {
             if (!ModelState.IsValid)
                 return RedirectToAction("ContactUs", "Home");
 
-            int userID = _userService.LoginUser(user.Email!, user.Password!); // [Required]!
+            int userID = _userService.LoginUser(userLogin);
             if (userID < 0)
                 return RedirectToAction("ContactUs", "Home");
 
@@ -40,21 +42,16 @@ namespace cldv6211proj.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View(new RegisterUserModel());
+            return View(new UserRegister());
         }
 
         [HttpPost]
-        public IActionResult Register(RegisterUserModel user)
+        public IActionResult Register(UserRegister userRegister)
         {
             if (!ModelState.IsValid)
                 return RedirectToAction("ContactUs", "Home");
 
-            int userID = _userService.CreateUser(
-                user.Name!, // ? [Required]!
-                user.Surname!, // ? [Required]!
-                user.Email!, // ? [Required]!
-                user.Password! // ? [Required]!
-            );
+            int userID = _userService.CreateUser(userRegister);
             if (userID < 0)
                 return RedirectToAction("ContactUs", "Home");
 

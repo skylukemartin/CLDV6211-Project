@@ -1,4 +1,4 @@
-﻿@model cldv6211proj.Models.SubmitOrderModel
+﻿@model cldv6211proj.Models.ViewModels.OrderPlace
 
 @{
     ViewData["Title"] = "Place Order";
@@ -22,7 +22,8 @@
             <div class="col-md-4">
                 <div style="margin-top: -25vh;">
                     <h2>Shipping Details</h2>
-                    <input type="hidden" name="productID" value="@Model.Product.ID" />
+                    <input type="hidden" name="userID" class="form-control" value="@Model.User.ID" />
+                    <input type="hidden" name="productID" class="form-control" value="@Model.Product.ID" />
                     <div class="form-group">
                         <label for="address">Shipping Address</label>
                         <textarea id="address" name="address" class="form-control mb-3" rows="3" required></textarea>

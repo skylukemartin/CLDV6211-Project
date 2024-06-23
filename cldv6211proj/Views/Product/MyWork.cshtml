@@ -1,4 +1,4 @@
-﻿@model cldv6211proj.Models.Product
+﻿@model cldv6211proj.Models.ViewModels.ProductList
 
 @* references:
 https://stackoverflow.com/questions/407770/mapping-individual-buttons-on-asp-net-mvc-view-to-controller-actions
@@ -8,7 +8,7 @@ https://getbootstrap.com/docs/4.0/components/card/ *@
 
 @{
     ViewData["Title"] = "My Work";
-    var products = ViewData["Products"] as List<cldv6211proj.Models.Product>;
+    var products = Model.Products;
     var numPerColumn = 4;
 }
 

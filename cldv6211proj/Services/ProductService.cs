@@ -1,5 +1,5 @@
 using cldv6211proj.Data;
-using cldv6211proj.Models;
+using cldv6211proj.Models.Database;
 
 namespace cldv6211proj.Services
 {
@@ -18,7 +18,7 @@ namespace cldv6211proj.Services
             return _context.SaveChanges() > 0;
         }
 
-        public Product? GetProduct(int productID) => _context.Products.Find(productID); // is this useless?
+        public Product? GetProduct(int productID) => _context.Products.Find(productID);
 
         public List<Product> GetProducts() => _context.Products.ToList();
 

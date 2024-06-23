@@ -1,5 +1,6 @@
 using cldv6211proj.Data;
-using cldv6211proj.Models;
+using cldv6211proj.Models.Database;
+using cldv6211proj.Models.ViewModels;
 
 namespace cldv6211proj.Services
 {
@@ -17,27 +18,27 @@ namespace cldv6211proj.Services
             return password; // TODO: Implement
         }
 
-        public int CreateUser(string name, string surname, string email, string password)
+        public int CreateUser(UserRegister userRegister)
         {
-            if (_context.Users.Where(u => u.Email == email).Count() > 0)
+            if (_context.Users.Where(u => u.Email == userRegister.Email).Count() > 0)
                 return -1; // Email must be unique
             User user =
                 new()
                 {
-                    Name = name,
-                    Surname = surname,
-                    Email = email,
-                    Password = HashPassword(password)
+                    Name = userRegister.Name,
+                    Surname = userRegister.Surname,
+                    Email = userRegister.Email,
+                    Password = HashPassword(userRegister.Password!) // ? [Required]!
                 };
             _context.Users.Add(user);
             _context.SaveChanges();
             return user.ID;
         }
 
-        public int LoginUser(string email, string password)
+        public int LoginUser(UserLogin userLogin)
         {
             var user = _context.Users.FirstOrDefault(u =>
-                u.Email == email && u.Password == password
+                u.Email == userLogin.Email && u.Password == userLogin.Password
             );
             return user?.ID ?? -1;
         }

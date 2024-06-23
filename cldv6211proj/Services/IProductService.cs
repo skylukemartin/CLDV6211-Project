@@ -1,4 +1,4 @@
-using cldv6211proj.Models;
+using cldv6211proj.Models.Database;
 
 namespace cldv6211proj.Services
 {

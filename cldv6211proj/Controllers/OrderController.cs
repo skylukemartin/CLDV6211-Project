@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using cldv6211proj.Models;
+using cldv6211proj.Models.Database;
+using cldv6211proj.Models.ViewModels;
 using cldv6211proj.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,33 +33,27 @@ namespace cldv6211proj.Controllers
             var user = _userService.GetUser(HttpContext.Session.GetInt32("userID") ?? -1);
             if (user == null)
                 return RedirectToAction("Register", "User");
+
             var product = _productService.GetProduct(productID);
             if (product == null)
                 return RedirectToAction("ContactUs", "Home");
 
-            return View(
-                new SubmitOrderModel
-                {
-                    User = user,
-                    Product = product,
-                    OrderForm = new()
-                }
-            );
+            return View(new OrderPlace { User = user, Product = product });
         }
 
         [HttpPost]
-        public IActionResult SubmitOrder(int productID, SubmitOrderForm orderForm)
+        public IActionResult SubmitOrder(OrderSubmitForm orderForm)
         {
+            if (!ModelState.IsValid)
+                return RedirectToAction("ContactUs", "Home");
+            // TODO: is there a [Required] type data annotation thing for a minimum value?
             if (orderForm.Quantity < 1)
                 return RedirectToAction("ContactUs", "Home");
-            var orderID = _orderService.CreateOrder(
-                HttpContext.Session.GetInt32("userID") ?? -1,
-                productID,
-                orderForm.Address,
-                orderForm.Quantity
-            );
+
+            var orderID = _orderService.CreateOrder(orderForm);
             if (orderID < 0)
                 return RedirectToAction("ContactUs", "Home");
+
             return RedirectToAction("OrderHistory", "Order");
         }
 
@@ -70,7 +66,7 @@ namespace cldv6211proj.Controllers
             var orderInfos = _orderService.FindOrderInfos(user.ID, isBuyer: true);
             if (orderInfos == null)
                 return RedirectToAction("ContactUs", "Home");
-            return View(new UserOrdersModel() { User = user, OrderInfos = orderInfos });
+            return View(new UserOrderInfos() { User = user, OrderInfos = orderInfos });
         }
 
         [HttpGet]
@@ -82,7 +78,7 @@ namespace cldv6211proj.Controllers
             var orderInfos = _orderService.FindOrderInfos(user.ID, isBuyer: false);
             if (orderInfos == null)
                 return RedirectToAction("ContactUs", "Home");
-            return View(new UserOrdersModel() { User = user, OrderInfos = orderInfos });
+            return View(new UserOrderInfos() { User = user, OrderInfos = orderInfos });
         }
 
         [HttpPost]

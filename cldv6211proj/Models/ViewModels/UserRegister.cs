@@ -1,12 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace cldv6211proj.Models
+namespace cldv6211proj.Models.ViewModels
 {
-    public class User
+    public class UserRegister
     {
-        public int ID { get; set; }
-        public double Balance { get; set; } = 0;
-
         [Required]
         public string? Name { get; set; }
 
@@ -17,6 +14,7 @@ namespace cldv6211proj.Models
         public string? Email { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         public string? Password { get; set; }
     }
 }
