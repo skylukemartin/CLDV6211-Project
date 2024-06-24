@@ -1,6 +1,6 @@
 namespace cldv6211proj.Models.ViewModels
 {
-    using cldv6211proj.Models.Database;
+    using Shared.Models;
 
     public class ProductList
     {

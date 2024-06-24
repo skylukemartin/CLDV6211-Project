@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace cldv6211proj.Models.Database
+namespace Shared.Models
 {
     public class Product
     {

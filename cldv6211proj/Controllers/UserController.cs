@@ -1,12 +1,13 @@
 using System.Diagnostics;
-using cldv6211proj.Models.Database;
 using cldv6211proj.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Models;
 
 namespace cldv6211proj.Controllers
 {
     using cldv6211proj.Models;
     using cldv6211proj.Services;
+    using Shared.Services;
 
     public class UserController : Controller
     {
@@ -31,7 +32,7 @@ namespace cldv6211proj.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction("ContactUs", "Home");
 
-            int userID = _userService.LoginUser(userLogin);
+            int userID = _userService.LoginUser(userLogin.Email!, userLogin.Password!);
             if (userID < 0)
                 return RedirectToAction("ContactUs", "Home");
 
@@ -51,7 +52,12 @@ namespace cldv6211proj.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction("ContactUs", "Home");
 
-            int userID = _userService.CreateUser(userRegister);
+            int userID = _userService.CreateUser(
+                userRegister.Name!,
+                userRegister.Surname!,
+                userRegister.Email!,
+                userRegister.Password!
+            );
             if (userID < 0)
                 return RedirectToAction("ContactUs", "Home");
 

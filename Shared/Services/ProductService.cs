@@ -1,13 +1,13 @@
-using cldv6211proj.Data;
-using cldv6211proj.Models.Database;
+using Shared.Data;
+using Shared.Models;
 
-namespace cldv6211proj.Services
+namespace Shared.Services
 {
     public class ProductService : IProductService
     {
-        private readonly AppDbContext _context;
+        private readonly SharedDbContext _context;
 
-        public ProductService(AppDbContext context)
+        public ProductService(SharedDbContext context)
         {
             _context = context;
         }

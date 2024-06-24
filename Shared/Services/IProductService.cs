@@ -1,6 +1,6 @@
-using cldv6211proj.Models.Database;
+using Shared.Models;
 
-namespace cldv6211proj.Services
+namespace Shared.Services
 {
     public interface IProductService
     {

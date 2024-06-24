@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using cldv6211proj.Models;
-using cldv6211proj.Models.Database;
 using cldv6211proj.Models.ViewModels;
 using cldv6211proj.Services;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Enums;
+using Shared.Models;
+using Shared.Services;
 
 namespace cldv6211proj.Controllers
 {
@@ -42,7 +44,7 @@ namespace cldv6211proj.Controllers
         }
 
         [HttpPost]
-        public IActionResult SubmitOrder(OrderSubmitForm orderForm)
+        public IActionResult SubmitOrderAsync(OrderSubmitForm orderForm)
         {
             if (!ModelState.IsValid)
                 return RedirectToAction("ContactUs", "Home");
@@ -50,9 +52,18 @@ namespace cldv6211proj.Controllers
             if (orderForm.Quantity < 1)
                 return RedirectToAction("ContactUs", "Home");
 
-            var orderID = _orderService.CreateOrder(orderForm);
+            var orderID = _orderService.CreateOrder(
+                orderForm.UserID,
+                orderForm.ProductID,
+                orderForm.Quantity,
+                orderForm.Address
+            );
+
             if (orderID < 0)
                 return RedirectToAction("ContactUs", "Home");
+
+            // Start processing order in the background
+            _ = DurableWrapperService.StartOrderProcessing(orderID);
 
             return RedirectToAction("OrderHistory", "Order");
         }
@@ -70,7 +81,7 @@ namespace cldv6211proj.Controllers
         }
 
         [HttpGet]
-        public IActionResult ProcessOrders()
+        public IActionResult ShipOrders()
         {
             var user = _userService.GetUser(HttpContext.Session.GetInt32("userID") ?? -1);
             if (user == null)
@@ -84,7 +95,7 @@ namespace cldv6211proj.Controllers
         [HttpPost]
         public IActionResult ShipOrder(int orderID)
         {
-            _orderService.ProcessOrder(orderID);
+            _orderService.UpdateOrderStatus(orderID, OrderStatus.Completed);
             return RedirectToAction("ProcessOrders", "Order");
         }
 

@@ -1,7 +1,7 @@
 namespace cldv6211proj.Models.ViewModels
 {
     using System.ComponentModel.DataAnnotations;
-    using cldv6211proj.Models.Database;
+    using Shared.Models;
 
     public class OrderPlace
     {

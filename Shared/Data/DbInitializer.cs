@@ -1,10 +1,11 @@
-using cldv6211proj.Models.Database;
+using Shared.Enums;
+using Shared.Models;
 
-namespace cldv6211proj.Data
+namespace Shared.Data
 {
     public static class DbInitializer
     { // ref: https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding
-        public static void Initialize(AppDbContext context)
+        public static void Initialize(SharedDbContext context)
         {
             context.Database.EnsureCreated();
             if (context.Users.Any() && context.Products.Any() && context.Orders.Any())
@@ -229,7 +230,7 @@ namespace cldv6211proj.Data
                     ProductID = 1,
                     Quantity = 1,
                     Address = "fake",
-                    Processed = true
+                    Status = OrderStatus.Completed
                 },
                 new Order()
                 {
@@ -237,7 +238,7 @@ namespace cldv6211proj.Data
                     ProductID = 2,
                     Quantity = 1,
                     Address = "fake",
-                    Processed = true
+                    Status = OrderStatus.Completed
                 },
                 new Order()
                 {
@@ -245,7 +246,7 @@ namespace cldv6211proj.Data
                     ProductID = 3,
                     Quantity = 1,
                     Address = "fake",
-                    Processed = true
+                    Status = OrderStatus.Completed
                 },
                 new Order()
                 {
@@ -253,7 +254,7 @@ namespace cldv6211proj.Data
                     ProductID = 4,
                     Quantity = 1,
                     Address = "fake",
-                    Processed = true
+                    Status = OrderStatus.Completed
                 }
             ];
         }

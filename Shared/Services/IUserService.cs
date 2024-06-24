@@ -1,12 +1,11 @@
-using cldv6211proj.Models.Database;
-using cldv6211proj.Models.ViewModels;
+using Shared.Models;
 
-namespace cldv6211proj.Services
+namespace Shared.Services
 {
     public interface IUserService
     {
-        int CreateUser(UserRegister userRegister);
-        int LoginUser(UserLogin userLogin);
+        int CreateUser(string name, string surname, string email, string password);
+        int LoginUser(string email, string password);
         User? GetUser(int userID);
         double GetBalance(int userID);
         bool UpdateBalance(int userID, double delta);

@@ -1,9 +1,10 @@
 using System.Diagnostics;
 using cldv6211proj.Models;
-using cldv6211proj.Models.Database;
 using cldv6211proj.Models.ViewModels;
 using cldv6211proj.Services;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Models;
+using Shared.Services;
 
 namespace cldv6211proj.Controllers
 {

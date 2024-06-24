@@ -1,9 +1,10 @@
-﻿@model cldv6211proj.Models.ViewModels.UserOrderInfos
+﻿@using Shared.Enums
+@model cldv6211proj.Models.ViewModels.UserOrderInfos
 
 @{
     ViewData["Title"] = "Order History";
-    var curOrders = Model.OrderInfos.Where(oi => !oi.Order.Processed).ToList();
-    var pastOrders = Model.OrderInfos.Where(oi => oi.Order.Processed).ToList();
+    var curOrders = Model.OrderInfos.Where(oi => oi.Order.Status < OrderStatus.Completed).ToList();
+    var pastOrders = Model.OrderInfos.Where(oi => oi.Order.Status >= OrderStatus.Completed).ToList();
 }
 
 <div class="container mt-4">
@@ -39,8 +40,8 @@
                                     </div>
                                     <div class="d-flex flex-column align-items-end px-2 bd-highlight">
                                         <div class="card-text">
-                                            <span class="badge @GetProcClass(orderInfo.Order.Processed)">
-                                                @GetProcStr(orderInfo.Order.Processed)
+                                            <span class="badge @GetStatusClass(orderInfo.Order.Status)">
+                                                @orderInfo.Order.Status.ToString()
                                             </span>
                                         </div>
                                     </div>
@@ -73,8 +74,8 @@
                                     </div>
                                     <div class="d-flex flex-column align-items-end px-2 bd-highlight">
                                         <div class="card-text">
-                                            <span class="badge @GetProcClass(orderInfo.Order.Processed)">
-                                                @GetProcStr(orderInfo.Order.Processed)
+                                            <span class="badge @GetStatusClass(orderInfo.Order.Status)">
+                                                @orderInfo.Order.Status.ToString()
                                             </span>
                                         </div>
                                     </div>
@@ -89,26 +90,16 @@
 </div>
 
 @functions {
-    private string GetStatusClass(string status)
+    private string GetStatusClass(OrderStatus status)
     {
         return status switch
         {
-            "Delivered" => "bg-success text-white",
-            "In Transit" => "bg-warning text-dark",
-            "Cancelled" => "bg-danger text-white",
-            _ => "bg-secondary text-white"
+            OrderStatus.Created => "bg-secondary text-white",
+            OrderStatus.Processing => "bg-success text-white",
+            OrderStatus.PendingShipping => "bg-warning text-dark",
+            OrderStatus.Completed => "bg-success text-white",
+            OrderStatus.Failed => "bg-danger text-white",
+            _ => "bg-danger text-white",
         };
-    }
-    private string GetProcClass(bool processed)
-    {
-        if (!processed)
-            return "bg-warning text-dark";
-        return "bg-success text-white";
-    }
-    private string GetProcStr(bool processed)
-    {
-        if (!processed)
-            return "Processing";
-        return "Complete";
     }
 }

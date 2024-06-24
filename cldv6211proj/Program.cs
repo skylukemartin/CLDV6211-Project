@@ -1,8 +1,8 @@
 namespace cldv6211proj
 {
-    using cldv6211proj.Data;
-    using cldv6211proj.Services;
     using Microsoft.EntityFrameworkCore;
+    using Shared.Data;
+    using Shared.Services;
 
     public class Program
     {
@@ -23,8 +23,11 @@ namespace cldv6211proj
 
             // ref: https://learn.microsoft.com/en-us/ef/core/miscellaneous/connection-strings
             // TODO: Use a more secure way of storing connection string (before someone finds this repo and nukes the db)
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+            builder.Services.AddDbContext<SharedDbContext>(options =>
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    b => b.MigrationsAssembly("Shared")
+                )
             );
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IProductService, ProductService>();
@@ -33,7 +36,7 @@ namespace cldv6211proj
             var app = builder.Build();
 
             DbInitializer.Initialize( // Make sure db has been seeded
-                app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>()
+                app.Services.CreateScope().ServiceProvider.GetRequiredService<SharedDbContext>()
             );
 
             // Configure the HTTP request pipeline.

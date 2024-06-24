@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using cldv6211proj.Data;
+using Shared.Data;
 
 #nullable disable
 
-namespace cldv6211proj.Migrations
+namespace Shared.Data.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20240622180202_InitialCreate")]
+    [DbContext(typeof(SharedDbContext))]
+    [Migration("20240624145725_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace cldv6211proj.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("cldv6211proj.Models.Order", b =>
+            modelBuilder.Entity("Shared.Models.Order", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -36,13 +36,13 @@ namespace cldv6211proj.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Processed")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<int>("UserID")
@@ -53,7 +53,7 @@ namespace cldv6211proj.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("cldv6211proj.Models.Product", b =>
+            modelBuilder.Entity("Shared.Models.Product", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -91,7 +91,7 @@ namespace cldv6211proj.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("cldv6211proj.Models.User", b =>
+            modelBuilder.Entity("Shared.Models.User", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()

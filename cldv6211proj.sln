@@ -5,6 +5,10 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cldv6211proj", "cldv6211proj\cldv6211proj.csproj", "{57AC4468-A94A-4A18-B32F-5567C1CE1887}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{B1AA90C1-9796-4DF1-A597-25E322570ED6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DurableFunctions", "DurableFunctions\DurableFunctions.csproj", "{2E2583B3-F9FD-48EB-A651-0F4AEADA6125}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{57AC4468-A94A-4A18-B32F-5567C1CE1887}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57AC4468-A94A-4A18-B32F-5567C1CE1887}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57AC4468-A94A-4A18-B32F-5567C1CE1887}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1AA90C1-9796-4DF1-A597-25E322570ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1AA90C1-9796-4DF1-A597-25E322570ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1AA90C1-9796-4DF1-A597-25E322570ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1AA90C1-9796-4DF1-A597-25E322570ED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E2583B3-F9FD-48EB-A651-0F4AEADA6125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E2583B3-F9FD-48EB-A651-0F4AEADA6125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E2583B3-F9FD-48EB-A651-0F4AEADA6125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E2583B3-F9FD-48EB-A651-0F4AEADA6125}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

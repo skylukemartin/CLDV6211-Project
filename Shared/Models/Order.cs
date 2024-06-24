@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using Shared.Enums;
 
-namespace cldv6211proj.Models.Database
+namespace Shared.Models
 {
     public class Order
     {
         public int ID { get; set; }
-        public bool Processed { get; set; } = false;
+        public OrderStatus Status { get; set; } = OrderStatus.Created;
 
         [Required]
         public required int UserID { get; set; }

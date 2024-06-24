@@ -1,7 +1,5 @@
-namespace cldv6211proj.Models.ViewModels
+namespace Shared.Models
 {
-    using cldv6211proj.Models.Database;
-
     public class OrderInfo
     {
         public required Order Order { get; set; }
