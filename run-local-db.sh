@@ -9,7 +9,7 @@ if podman container exists sqlserver; then
     echo "A container named 'sqlserver' already exists, removing it..."
     podman container stop sqlserver
     podman container rm sqlserver
-    if [ "$1" == "reset" ]; then
+    if [ "$1" == "reset" || "$1" == "stop" ]; then
         podman volume rm sqlserver && echo "removed 'sqlserver' volume"
     fi
 fi
