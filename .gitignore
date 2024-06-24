@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# SeedDb.sql - auto-generated sql commands for seeding db
+SeedDb.sql

@@ -1,0 +1,12 @@
+{
+  "cSpell.words": [
+    "cldv",
+    "Cmds",
+    "Holms",
+    "Khumalo",
+    "Woolie",
+    "writethisdown"
+  ],
+  "appService.preDeployTask": "publish-release",
+  "appService.deploySubpath": "cldv6211proj/bin/Release/net8.0/publish"
+}

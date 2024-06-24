@@ -1,0 +1,42 @@
+﻿@model cldv6211proj.Models.ViewModels.OrderPlace
+
+@{
+    ViewData["Title"] = "Place Order";
+}
+
+
+<div class="container h-100">
+    <h1 style="text-align: center">@ViewData["Title"]</h1>
+    <form asp-controller="Order" asp-action="SubmitOrder" method="post">
+        <div class="row justify-content-center align-items-center" style="min-height: 75vh;">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="@Model.Product.ImageURL" class="card-img-top" alt="@Model.Product.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.Product.Name</h5>
+                        <p class="card-text">@Model.Product.Description</p>
+                        <p>Price: <strong>@string.Concat("R", Model.Product.Price)</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div style="margin-top: -25vh;">
+                    <h2>Shipping Details</h2>
+                    <input type="hidden" name="userID" class="form-control" value="@Model.User.ID" />
+                    <input type="hidden" name="productID" class="form-control" value="@Model.Product.ID" />
+                    <div class="form-group">
+                        <label for="address">Shipping Address</label>
+                        <textarea id="address" name="address" class="form-control mb-3" rows="3" required></textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="number" id="quantity" name="quantity" class="form-control" min="1" value="1"
+                            required>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Submit Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

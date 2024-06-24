@@ -1,0 +1,61 @@
+@model cldv6211proj.Models.Search.SearchData
+@*
+reference/source: https://learn.microsoft.com/en-us/azure/search/tutorial-csharp-create-mvc-app
+*@
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div>
+    <h2>Search for Products</h2>
+    <p>This is a simple proof of concept.</p>
+    <form asp-controller="Product" asp-action="SearchProducts">
+        <p>
+            <input type="text" name="searchText" />
+            <input type="submit" value="Search" />
+        </p>
+    </form>
+</div>
+
+<div>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        @if (Model != null)
+        {
+            // Show the result count.
+            <p>@Model.resultList.TotalCount Results</p>
+            // Get search results.
+            var results = Model.resultList.GetResults().ToList();
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ProductName</th>
+                            <th>ProductPrice</th>
+                            <th>ProductAvailability</th>
+                            <th>ProductDescription</th>
+                            <th>ProductCategory</th>
+                            <th>ProductImageURL</th>
+                            <th>UserID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var d in results)
+                        {
+                            <tr>
+                                <td>@d.Document.ProductName</td>
+                                <td>@d.Document.ProductPrice</td>
+                                <td>@d.Document.ProductAvailability</td>
+                                <td>@d.Document.ProductDescription</td>
+                                <td>@d.Document.ProductCategory</td>
+                                <td>@d.Document.ProductImageURL</td>
+                                <td>@d.Document.UserID</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+    }
+</div>
